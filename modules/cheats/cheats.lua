@@ -1,7 +1,8 @@
 --stylua: ignore start
 dofile_once("data/scripts/perks/perk.lua")
 
-local cheats = {
+local cheats = {}
+cheats = {
 	{
 		code = "motherlode",
 		name = "Motherlode",
@@ -270,6 +271,60 @@ local cheats = {
 			perk_pickup(nil, player, "EDIT_WANDS_EVERYWHERE", true, false, true)
 		end,
 	},
+	{
+		code = "radarwand",
+		name = "Wand Radar",
+		description = "guh",
+		func = function(player)
+			perk_pickup(nil, player, "WAND_RADAR", true, false, true)
+		end,
+	},
+	{
+		code = "radaritem",
+		name = "Item Radar",
+		description = "guh",
+		func = function(player)
+			perk_pickup(nil, player, "ITEM_RADAR", true, false, true)
+		end,
+	},
+	{
+		code = "radarenemy",
+		name = "Enemy Radar",
+		description = "guh",
+		func = function(player)
+			perk_pickup(nil, player, "RADAR_ENEMY", true, false, true)
+		end,
+	},
+	{
+		code = "pwr",
+		name = "PW+1",
+		description = "this place seems familiar...",
+		func = function(player, x, y)
+			if not player then return end
+			EntitySetTransform(player, x+(512*BiomeMapGetSize()), y)
+		end,
+	},
+	{
+		code = "pwl",
+		name = "PW-1",
+		description = "this place seems familiar...",
+		func = function(player, x, y)
+			if not player then return end
+			EntitySetTransform(player, x-(512*BiomeMapGetSize()), y)
+		end,
+	},
+	{
+		code = "/help",
+		func = function(p, x, y)
+			for _,cheat in ipairs(cheats) do
+				local code = cheat.code
+				if type(code) == "function" then
+					code = cheat:code(p,x,y)
+				end
+				print(tostring(code))
+			end
+		end
+	}
 }
 
 
